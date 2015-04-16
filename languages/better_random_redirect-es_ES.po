@@ -1,0 +1,163 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Better Random Redirect v1.3.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2015-04-10 21:13:54+0000\n"
+"Last-Translator: rpeake <robert@peakepro.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: CSL v1.x\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: SPAIN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#. translators: plugin header field 'Name'
+#: admin.php:6
+#: better-random-redirect.php:0
+#: better-random-redirect.php:23
+#@ better_random_redirect
+msgid "Better Random Redirect"
+msgstr "Mejor Redirección al Azar"
+
+#: admin.php:17
+#@ better_random_redirect
+msgid "Main Randomiser URL"
+msgstr "URL de aleatorizador"
+
+#: admin.php:47
+#@ better_random_redirect
+msgid "Cache Time"
+msgstr "Tiempo de caché"
+
+#. translators: plugin header field 'Author'
+#: better-random-redirect.php:0
+#@ better_random_redirect
+msgid "Robert Peake"
+msgstr "Robert Peake"
+
+#. translators: plugin header field 'AuthorURI'
+#: better-random-redirect.php:0
+#@ better_random_redirect
+msgid "http://www.robertpeake.com/"
+msgstr "http://www.robertpeake.com/"
+
+#: better-random-redirect.php:23
+#@ better_random_redirect
+msgid "Better Random Redirect Options"
+msgstr "Opciones para Mejor Redirección al Azar"
+
+#: admin.php:10
+#@ better_random_redirect
+msgid "Cache time represents how long to cache the list of valid posts (in seconds), and therefore affects how long it takes for new posts become eligible to be part of the randomiser. Leave this setting at the default unless you have a specific reason to change it."
+msgstr "Tiempo de caché representa el tiempo en caché la lista de posts válidos (en segundos), y por lo tanto afecta el tiempo que toma para los nuevos puestos son elegibles para formar parte del aleatorizador. Deje esta configuración en el valor predeterminado a menos que tenga una razón específica para cambiarlo."
+
+#: admin.php:7
+#@ better_random_redirect
+msgid "Configure the URL you want to use."
+msgstr "Configure la URL que desea utilizar."
+
+#: admin.php:8
+#@ better_random_redirect
+msgid "Configure the category of posts you want to use as the basis for the randomiser. Leave set at \"All Categories\" to include posts in all categories. This value can be overridden in the shortcode and by using cat= in the url."
+msgstr "Configure la categoría de los puestos que desea utilizar como base para el aleatorizador. Deja fijado en \\ \\\"Todas las categorías \" para incluir los puestos en todas las categorías. Este valor puede suprimirse en el código corto usando cat= en la url."
+
+#: admin.php:22
+#@ better_random_redirect
+msgid "Category to use"
+msgstr "categoría para utilizar"
+
+#: admin.php:25
+#: admin.php:55
+#@ better_random_redirect
+msgid "All Categories"
+msgstr "Todas Las Categorías"
+
+#: admin.php:51
+#@ better_random_redirect
+msgid "Shortcodes and URLs"
+msgstr "Shortcodes y URLs"
+
+#: admin.php:52
+#@ default
+msgid "Examples based on current saved settings:"
+msgstr ""
+
+#: admin.php:62
+#@ better_random_redirect
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#: admin.php:63
+#@ better_random_redirect
+msgid "URL"
+msgstr "URL"
+
+#: admin.php:64
+#@ better_random_redirect
+msgid "Result"
+msgstr "Resulto"
+
+#: admin.php:71
+#, php-format
+#@ better_random_redirect
+msgid "Random post from %s"
+msgstr "Publicaciones aleatorias en"
+
+#: admin.php:78
+#@ better_random_redirect
+msgid "Random post from \"foo\""
+msgstr "Publicaciones aleatorias en \"foo\""
+
+#. translators: plugin header field 'PluginURI'
+#: better-random-redirect.php:0
+#@ better_random_redirect
+msgid "https://wordpress.org/plugins/better-random-redirect/"
+msgstr "https://wordpress.org/plugins/better-random-redirect/"
+
+#: better-random-redirect.php:30
+#@ better_random_redirect
+msgid "random"
+msgstr "aleatorio"
+
+#: admin.php:9
+#@ better_random_redirect
+msgid "Configure the post types you want to use as the basis for the randomiser. Leave set to the default of \"Posts\" to include blog posts. This value can be overridden in the shortcode and by using posttype= in the url."
+msgstr "Configure los tipos de \\\"posts\\\" que desea utilizar como base para el aleatorizador. Deja establecido en el valor predeterminado de \\ \\\"posts \" para incluir las entradas del blog. Este valor puede suprimirse en el código corto y usando posttype= en la url."
+
+#: admin.php:35
+#@ better_random_redirect
+msgid "Post Type to use"
+msgstr "Tipio de post"
+
+#. translators: plugin header field 'Description'
+#: better-random-redirect.php:0
+#@ better_random_redirect
+msgid "Based on the original Random Redirect, this plugin enables efficent, easy random redirection to a post."
+msgstr "Basado en el original Random Redirect, este plugin permite  redirección al azar en manera eficiente y fácil."
+
+#: admin.php:85
+#@ better_random_redirect
+msgid "Random post of type \"page\""
+msgstr "Publicaciones aleatorias de tipio \"page\""
+
+#. translators: plugin header field 'Version'
+#: better-random-redirect.php:0
+#@ better_random_redirect
+msgid "1.3.2"
+msgstr "1.3.2"
+
+#: admin.php:94
+#, php-format
+#@ better_random_redirect
+msgid "Random post in the %s language"
+msgstr "Publicaciones aleatorias en el idioma %s"
+
