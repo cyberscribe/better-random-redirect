@@ -4,7 +4,7 @@ Plugin Name: Better Random Redirect
 Plugin URI: https://wordpress.org/plugins/better-random-redirect/
 Description: Based on the original Random Redirect, this plugin enables efficent, easy random redirection to a post.
 Author: Robert Peake
-Version: 1.3.6
+Version: 1.3.7
 Author URI: http://www.robertpeake.com/
 Text Domain: better_random_redirect
 Domain Path: /languages/
@@ -20,6 +20,37 @@ class BetterRandomRedirect {
         add_action( 'admin_init', array('BetterRandomRedirect', 'register_settings' ));
         add_action( 'template_redirect', array('BetterRandomRedirect', 'do_redirect' ));
         add_shortcode('random-url',array('BetterRandomRedirect', 'random_url_shortcode'));
+        BetterRandomRedirect::load_filters();
+    }
+
+    private static function load_filters() {
+        global $wpdb;
+        add_option('brr_query_qtranslate_pattern', ' and '.$wpdb->posts.'.post_content like %s ');
+        add_filter('brr_transient_id_filter', function($transient_id, $lang = '') {
+            global $q_config;
+            if (isset($q_config['default_language']) && $lang != $q_config['default_language']) {
+                $transient_id = $transient_id . '_qtranslate_'.$lang; 
+            }
+            return $transient_id;
+        });
+        add_filter('brr_additional_where_filter', function($additional_where) {
+            global $wpdb, $q_config;
+            if(isset($q_config['language']) && $q_config['language'] != $q_config['default_language']) {
+                    $tmp_additional_where = $wpdb->prepare(get_option('brr_query_qtranslate_pattern'), '%[:'.$q_config['language'].']%');
+            }
+            if (strlen($additional_where) > 0) {
+                return $additional_where . ' AND ' . $tmp_additional_where;
+            } else {
+                return $tmp_additional_where;
+            }
+        });
+        add_filter('brr_url_base_filter', function($url_base, $lang = '') {
+            global $q_config;
+            if (isset($q_config['language'])) {
+                $url_base .= '/' . $lang;
+            }
+            return $url_bse;
+        });
     }
 
     public static function load_textdomain() {
@@ -47,7 +78,6 @@ class BetterRandomRedirect {
                      'LEFT OUTER JOIN '.$wpdb->term_taxonomy.' x ON x.term_taxonomy_id = r.term_taxonomy_id '.
                      'LEFT OUTER JOIN '.$wpdb->terms.' t ON t.term_id = x.term_id '.
                      ' where post_type=\'%s\' and post_status=\'publish\' and post_password = \'\' and t.slug=\'%s\'');
-        add_option('brr_query_qtranslate_pattern', ' and '.$wpdb->posts.'.post_content like %s ');
         
         /* user-configurable value checking functions */
         register_setting( 'better_random_redirect', 'brr_default_slug', array('BetterRandomRedirect', 'slug_check') );
@@ -117,9 +147,7 @@ class BetterRandomRedirect {
         if ($posttype && $posttype != 'post') {
             $transient_id = $transient_id . '_posttype_'.$posttype; 
         }
-        if (isset($q_config['default_language']) && $lang != $q_config['default_language']) {
-            $transient_id = $transient_id . '_qtranslate_'.$lang; 
-        }
+        $transient_id = apply_filters('brr_transient_id_filter', $transient_id, $lang);
         
         // check the transient cache first, if the post id index maximum is not found or expired, regenerate it
         if (false === ($max = get_transient( $transient_id . '_max'))) {
@@ -131,10 +159,8 @@ class BetterRandomRedirect {
             } else {
                 $query = $wpdb->prepare(sprintf(get_option('brr_query_posttype_pattern'),'count(*)','%s'),$posttype);
             }
-        $additional_where = '';
-        if(isset($q_config['default_language']) && $lang != $q_config['default_language']) {
-                $additional_where = $wpdb->prepare(get_option('brr_query_qtranslate_pattern'), '%[:'.$q_config['language'].']%');
-        }
+            $additional_where = '';
+            $additional_where = apply_filters('brr_additional_where_filter',$additional_where);
             $query .= $additional_where;
             
             $total = $wpdb->get_var($query);
@@ -146,9 +172,7 @@ class BetterRandomRedirect {
         }
         // build URL base
         $url_base = site_url();
-        if (isset($q_config['language'])) {
-            $url_base .= '/' . $lang;
-        }
+        $url_base = apply_filters('brr_url_base_filter',$url_base, $lang);
         $url_base .= '/'.$url_slug.'/';
         
         // build query string
@@ -239,12 +263,10 @@ class BetterRandomRedirect {
                     $query = $wpdb->prepare(sprintf(get_option('brr_query_posttype_pattern'),'ID','%s'),$posttype);
                 }
 
-            /* additional WHERE filters (to be used with AND) */
-            $additional_where = '';
-            if(isset($q_config['language']) && $q_config['language'] != $q_config['default_language']) {
-                    $additional_where = $wpdb->prepare(get_option('brr_query_qtranslate_pattern'), '%[:'.$q_config['language'].']%');
-                    $transient_id .= '_qtranslate_'.$q_config['language'];
-            }
+                /* additional WHERE filters (to be used with AND) */
+                $additional_where = '';
+                $additional_where = apply_filters('brr_additional_where_filter',$additional_where);
+                $transient_id = apply_filters('brr_transient_id_filter', $transient_id, $lang);
                 $query .= $additional_where;
 
                 // query for valid post IDs
