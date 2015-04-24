@@ -1,5 +1,5 @@
 <?php
-class QtranslatexFilter {
+class QtranslatexFilter extends BrrFilter {
 
     public static function filters_required() {
         global $q_config;
