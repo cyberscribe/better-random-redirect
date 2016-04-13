@@ -1,8 +1,8 @@
 === Plugin Name ===
-Contributors: robertpeake
+Contributors: robertpeake, robert.peake
 Tags: random,post,category
 Requires at least: 3.0.0
-Tested up to: 4.2
+Tested up to: 4.5
 Stable tag: 1.3.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -65,7 +65,7 @@ Alternatively, simply use the URL you set up in the configuration above as the l
 
 You can use the URL you set up in the configuration, and optionally append cat= and/or posttype= as part of the URL query string.
 
-Alternatively, for sidebar items, you can use the PHP Widget along with some php code like <code><?php echo do_sidebar('[random-url]'); ?></code> to resolve the shortcode to a link that includes the r= attribute to defeat URL-based caching.
+Alternatively, for sidebar items, you can use the PHP Widget along with some php code like <code><?php echo do_shortcode('[random-url]'); ?></code> to resolve the shortcode to a link that includes the r= attribute to defeat URL-based caching.
 
 = What is the r= parameter I see at the end of generated URLs? =
 
