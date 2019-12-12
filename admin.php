@@ -84,7 +84,7 @@ echo settings_fields( 'better_random_redirect' );
             </a></td>
             <td><?php _e('Random post of type "page"','better_random_redirect'); ?></td>
         </tr>
-        <?php echo apply_filters('brr_admin_table_filter', '', $lang); ?>
+        <?php // echo apply_filters('brr_admin_table_filter', '', $lang); ?>
     </table>
     <?php submit_button(); ?>
 </form>
