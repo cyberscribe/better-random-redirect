@@ -1,8 +1,8 @@
 <?php
-class QtranslatexFilter extends BrrFilter {
+class SitepressWpmlFilter extends BrrFilter {
 
     public static function filters_required() {
-        global $q_config;
+        global $sitepress;
         if (isset($q_config)) {
             return true;
         } else {
@@ -20,20 +20,17 @@ class QtranslatexFilter extends BrrFilter {
     }
 
     public static function brr_transient_id_filter($transient_id, $lang = '') {
-        global $q_config;
-        if (isset($q_config['default_language']) && $lang != $q_config['default_language']) {
+        global $sitepress;
+        if (isset($sitepress) && $lang != $sitepress->get_default_language()) {
             $transient_id = $transient_id . '_qtranslate_'.$lang;
         }
         return $transient_id;
     }
 
     public static function brr_additional_where_filter( $additional_where ) {
-        global $wpdb, $q_config;
-
-        self::filters_required();
-
-        if(isset($q_config['language']) && $q_config['language'] != $q_config['default_language']) {
-                $tmp_additional_where = $wpdb->prepare(get_option('brr_query_qtranslate_pattern'), '%[:'.$q_config['language'].']%');
+        global $wpdb, $sitepress;
+        if(isset($sitepress) && $sitepress->get_current_language() != $sitepress->get_default_language()) {
+                $tmp_additional_where = $wpdb->prepare(get_option('brr_query_qtranslate_pattern'), '%[:'.$sitepress->get_current_language().']%');
         }
         if (strlen($additional_where) > 0) {
             return $additional_where . ' AND ' . $tmp_additional_where;
@@ -42,23 +39,23 @@ class QtranslatexFilter extends BrrFilter {
         }
     }
     public static function brr_url_base_filter($url_base, $lang = '') {
-        global $q_config;
-        if (isset($q_config['language'])) {
+        global $sitepress;
+        if (isset($sitepress)) {
             $url_base .= '/' . $lang;
         }
         return $url_bse;
     }
 
     public static function brr_admin_table_filter($html, $lang = '') {
-        global $q_config;
-        if(isset($q_config['enabled_languages']) && sizeof($q_config['enabled_languages']) > 0) {
-            foreach($q_config['enabled_languages'] as $lang) {
+        global $sitepress;
+        if(isset($sitepress) && sizeof($sitepress->get_active_languages()) > 0) {
+            foreach($sitepress->get_active_languages() as $lang => $details) {
                 $output .= '<tr>'."\n";
                 $output .= '    <td><code>[random-url lang="'.$lang.'"]</code></td>'."\n";
                 $output .= '    <td><a href="'.site_url().'/'.$lang.'/'.get_option('brr_default_slug').'/'.'" target="_blank">'."\n";
                 $output .= '    '.site_url().'/'.$lang.'/'.get_option('brr_default_slug').'/'."\n";
                 $output .= '    </a></td>'."\n";
-                $output .= '    <td>'.sprintf(__('Random post in the %s language','better_random_redirect'), $q_config['language_name'][$lang]).'</td>'."\n";
+                $output .= '    <td>'.sprintf(__('Random post in the %s language','better_random_redirect'), $details['display_name']).'</td>'."\n";
                 $output .= '</tr>'."\n";
             }
         }
