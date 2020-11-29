@@ -285,5 +285,6 @@ class BetterRandomRedirect {
         header('Cache-Control: no-cache, no-store, must-revalidate'); // HTTP 1.1.
         header('Pragma: no-cache'); // HTTP 1.0.
         header('Expires: Thu, 01 Jan 1970 00:00:00 GMT'); // Proxies.
+        header('X-Robots-Tag: noindex'); // Web Spiders
     }
 }

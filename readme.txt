@@ -2,8 +2,8 @@
 Contributors: robertpeake, robert.peake
 Tags: random,post,category
 Requires at least: 3.0.0
-Tested up to: 4.5
-Stable tag: 1.3.8
+Tested up to: 5.3
+Stable tag: 1.3.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,6 +77,22 @@ This is a random integer in the range of possible index values for the relevant 
 
 == Changelog ==
 
+= 1.3.13 =
+
+ * Tested with 5.3
+ 
+= 1.3.12 =
+
+ * Tested with 5.2
+
+= 1.3.11 =
+
+ * Tested with 5.1
+ 
+= 1.3.10 =
+
+ * Tested with 5.0
+  
 = 1.3.8 =
 
  * Modular class-based filter approach for future use
