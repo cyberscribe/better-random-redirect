@@ -4,8 +4,8 @@ Plugin Name: Better Random Redirect
 Plugin URI: https://wordpress.org/plugins/better-random-redirect/
 Description: Based on the original Random Redirect, this plugin enables efficent, easy random redirection to a post.
 Author: Robert Peake
-Version: 1.3.13
-Author URI: http://www.robertpeake.com/
+Version: 1.3.14
+Author URI: https://github.com/cyberscribe/better-random-redirecT
 Text Domain: better_random_redirect
 Domain Path: /languages/
 */
