@@ -48,42 +48,46 @@ class BetterRandomRedirect {
                      ' where post_type=\'%s\' and post_status=\'publish\' and post_password = \'\' and t.slug=\'%s\'');
         
         /* user-configurable value checking functions */
-        register_setting( 'better_random_redirect', 'brr_default_slug', array('BetterRandomRedirect', 'slug_check') );
-        register_setting( 'better_random_redirect', 'brr_default_category', array('BetterRandomRedirect', 'cat_check') );
-        register_setting( 'better_random_redirect', 'brr_default_posttype', array('BetterRandomRedirect', 'posttype_check' ));
-        register_setting( 'better_random_redirect', 'brr_default_timeout', array('BetterRandomRedirect', 'integer_check' ));  
+        register_setting( 'better_random_redirect', 'brr_default_slug', array(
+            'sanitize_callback' => array('BetterRandomRedirect', 'slug_check'),
+            'default' => __('random','better_random_redirect')
+        ) );
+        register_setting( 'better_random_redirect', 'brr_default_category', array(
+            'sanitize_callback' => array('BetterRandomRedirect', 'cat_check'),
+            'default' => ''
+        ) );
+        register_setting( 'better_random_redirect', 'brr_default_posttype', array(
+            'sanitize_callback' => array('BetterRandomRedirect', 'posttype_check'),
+            'default' => 'post'
+        ) );
+        register_setting( 'better_random_redirect', 'brr_default_timeout', array(
+            'sanitize_callback' => array('BetterRandomRedirect', 'integer_check'),
+            'default' => 3600
+        ) );
     }
 
     public static function slug_check( $string ) {
-        return filter_var($string, FILTER_SANITIZE_URL); //must consist of valid URL characters
+        $string = filter_var($string, FILTER_SANITIZE_URL); // sanitize as if url component
+        if ($string == '') return __('random','better_random_redirect'); // blank is invalid, revert to default
+        return $string; // otherwise use value user set
     }
 
     public static function cat_check( $string ) {
-        if ($string == '') {
-            return $string; //blank is valid for 'all categories'
-        }
-        $string = filter_var($string, FILTER_SANITIZE_STRING); //must be a valid string
-        if (term_exists($string,'category')) { //must exist in category taxonomy
-            return $string;
-        } else {
-            return '';
-        }
+        if ($string == '') return ''; // preemptively accept blank, e.g. 'all categories', valid default
+        $string = filter_var($string, FILTER_SANITIZE_STRING); // sanitize as if string
+        if (term_exists($string, 'category')) return $string; // value exists in category taxonomy, valid
+        return ''; // otherwise fall back to blank, e.g. 'all categories'
     }
 
     public static function posttype_check( $string ) {
-        if ($string == 'post') {
-            return $string; //post is valid default
-        }
-        $string = filter_var($string, FILTER_SANITIZE_STRING); //must be a valid string
-        if (post_type_exists($string)) { //must exist in category taxonomy
-            return $string;
-        } else {
-            return 'post';
-        }
+        if ($string == 'post') return 'post'; // preemptively accept 'post', valid default
+        $string = filter_var($string, FILTER_SANITIZE_STRING); // sanitize as if string
+        if (post_type_exists($string)) return $string; // value exists in post types, valid
+        return 'post'; // otherwise fall back to 'post'
     }
 
     public static function integer_check( $int ) {
-        return filter_var($int, FILTER_SANITIZE_NUMBER_INT);
+        return filter_var($int, FILTER_SANITIZE_NUMBER_INT); // just sanitize as if int
     }
 
     public static function random_url_shortcode( $atts ) {
