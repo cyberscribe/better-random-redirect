@@ -164,6 +164,12 @@ class BetterRandomRedirect {
     public static function do_redirect() {
         global $wpdb;
         global $q_config;
+        global $sitepress;
+
+        if (isset($sitepress) && !empty($sitepress)) {
+            $wpml_default = $sitepress->get_default_language();
+            $wpml_current = $sitepress->get_current_language();
+        }
 
         //get URL slug for matching
         $url_slug = get_option('brr_default_slug'); //slug to use in URL
@@ -180,6 +186,8 @@ class BetterRandomRedirect {
         $match_url = $url_base;
         if (isset($q_config['language']) && $q_config['language'] != $q_config['default_language']) {
             $match_url .= $q_config['language'] . '/';
+        } elseif (isset($wpml_current) && $wpml_current != $wpml_default) {
+            $match_url .= $wpml_current . '/';
         }
         $match_url .= $url_slug;
         // if we are in a designated randomiser URL location, get to work
